@@ -1,0 +1,90 @@
+<?php /** @var \Snowdog\DevTest\Controller\IndexAction $this */ ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Cache Warmer</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<?php \Snowdog\DevTest\Component\Menu::getInstance()->render() ?>
+
+<div class="container">
+
+    <?php if (isset($_SESSION['flash'])): ?>
+        <p class="bg-info"><?= $_SESSION['flash'] ?></p>
+        <?php unset($_SESSION['flash']) ?>
+    <?php endif ?>
+
+    <div>
+        <h1>Cache Warmer</h1>
+        <?php if ($this->user): ?>
+            <p class="bg-success">Hello <?= $this->user->getDisplayName() ?>!</p>
+            <div class="padded">
+                <table class="table table-striped">
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Hostname</th>
+                    </tr>
+                    <?php foreach ($this->getWebsites() as $website): /** @var \Snowdog\DevTest\Model\Website $website */ ?>
+                        <tr>
+                            <td><?= $website->getWebsiteId() ?></td>
+                            <td><a href="/website/<?= $website->getWebsiteId() ?>"><?= $website->getName() ?></a></td>
+                            <td><?= $website->getHostname() ?></td>
+                        </tr>
+                    <?php endforeach ?>
+                </table>
+            </div>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center" scope="col">Total number of pages</th>
+                        <th class="text-center" scope="col">Least recently visited page</th>
+                        <th class="text-center" scope="col">Most recently visited page</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center"><?= $this->getTotalPages() ?? '-' ?></td>
+                        <td class="text-center"><?= $this->getLeastRecentlyVisitedPage() ?? '-' ?></td>
+                        <td class="text-center"><?= $this->getMostRecentlyVisitedPage() ?? '-' ?></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="padded">
+                <form class="form-inline" method="post" action="/website">
+                    <div class="form-group">
+                        <label for="exampleInputName2">Name</label>
+                        <input type="text" name="name" class="form-control" id="exampleInputName2"
+                               placeholder="My Website">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputUrl2">Hostname</label>
+                        <input type="text" name="hostname" class="form-control" id="exampleInputUrl2"
+                               placeholder="website.org">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Website</button>
+                </form>
+            </div>
+        <?php endif ?>
+    </div>
+
+</div><!-- /.container -->
+
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+<?php /** @var \Snowdog\DevTest\Controller\ImporterAction $this */ ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Cache Warmer</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<?php \Snowdog\DevTest\Component\Menu::getInstance()->render() ?>
+
+<div class="container">
+
+    <?php if (isset($_SESSION['flash'])): ?>
+        <p class="bg-info"><?= $_SESSION['flash'] ?></p>
+        <?php unset($_SESSION['flash']) ?>
+    <?php endif ?>
+
+    <div>
+        <h1>Cache Warmer - Sitemap importer/updater</h1>
+        <?php if ($this->user): ?>
+            <p class="bg-success">Hello <?= $this->user->getDisplayName() ?>!</p>
+
+            <!--SITEMAP IMPORTER FORMS BLOCK-->
+            <div class="padded" id="sitemap-importer">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Sitemap URL</th>
+                            <th class="text-center">Sitemap XML</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                            <form id="import-sitemap-url" method="post" action="/importer/import">
+                                <div class="form-group">
+                                    <input type="hidden" name="import_type" value="import_url" />
+                                    <input class="form-control" id="url" type="text" name="xml_url" 
+                                           placeholder="http://nanosoft.co/sitemap.xml" />
+                                </div>
+
+                                <button class="btn btn-primary center-block" type="submit" name="import_url">Import from URL</button>
+                            </form>
+                            </td>
+                            <td>
+                                <form id="import-sitemap-xml" method="post" action="/importer/import" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <input type="hidden" name="import_type" value="import_file" />
+                                        <input type="file" name="xml_file" />
+                                    </div>
+                                    
+                                    <button id="btn-import-xml" class="btn btn-primary center-block" type="submit" name="import_file">Import XML</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--/SITEMAP IMPORTER FORMS BLOCK-->
+        <?php endif ?>
+    </div>
+</div><!-- /.container -->
+</body>
+</html>

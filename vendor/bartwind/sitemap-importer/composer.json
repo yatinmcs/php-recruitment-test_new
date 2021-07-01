@@ -1,0 +1,21 @@
+{
+    "name": "bartwind/sitemap-importer",
+    "type": "library",
+    "description": "Sitemap XML importer",
+    "keywords": ["sitemap", "import", "xml", "website"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bart Wind",
+            "email": "bartlomiej.wiatr@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Bartwind\\SitemapImporter\\": "src"
+        }
+    },
+    "require": {
+        "mtownsend/xml-to-array": "^1.0"
+    }
+}

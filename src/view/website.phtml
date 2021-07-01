@@ -1,0 +1,69 @@
+<?php /** @var \Snowdog\DevTest\Controller\WebsiteAction $this */ ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Cache Warmer</title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<?php \Snowdog\DevTest\Component\Menu::getInstance()->render() ?>
+
+<div class="container">
+
+    <?php if (isset($_SESSION['flash'])): ?>
+        <p class="bg-info"><?= $_SESSION['flash'] ?></p>
+        <?php unset($_SESSION['flash']) ?>
+    <?php endif ?>
+
+    <div>
+        <?php if ($this->website): ?>
+            <h1><?= $this->website->getName() ?></h1>
+
+            <div class="padded">
+                <table class="table table-striped">
+                    <tr>
+                        <th>#</th>
+                        <th>URL</th>
+                        <th>Last visited</th>
+                    </tr>
+                    <?php foreach ($this->getPages() as $page): /** @var \Snowdog\DevTest\Model\Page $page */ ?>
+                        <tr>
+                            <td><?= $page->getPageId() ?></td>
+                            <td><?= $page->getUrl() ?></td>
+                            <td><?= $page->getVisitTrackTime() ?? 'Never visited' ?></td>
+                        </tr>
+                    <?php endforeach ?>
+                </table>
+            </div>
+
+            <div class="padded">
+                <form class="form-inline" method="post" action="/page">
+                    <div class="form-group">
+                        <label for="exampleInputName2">URL</label>
+                        <input type="text" name="url" class="form-control" id="exampleInputName2"
+                               placeholder="product/awsome/example.html">
+                    </div>
+                    <input type="hidden" name="website_id" value="<?= $this->website->getWebsiteId() ?>" />
+                    <button type="submit" class="btn btn-primary">Add Url</button>
+                </form>
+            </div>
+        <?php endif ?>
+    </div>
+
+</div><!-- /.container -->
+
+
+</body>
+</html>
